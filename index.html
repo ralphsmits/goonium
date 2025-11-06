@@ -5,163 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Submitter</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #e2e8f0;
-            background-color: #0f172a;
-            padding: 20px;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        /* Video background */
-        #video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            opacity: 0.4;
-        }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-        }
-
-        .logo {
-            max-width: 700px;
-            width: 100%;
-            height: auto;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(15, 23, 42, 0.85);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 1;
-        }
-
-        .token-status {
-            background: rgba(21, 128, 61, 0.2);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            text-align: center;
-        }
-
-        .token-status h3 {
-            margin-bottom: 5px;
-            color: #86efac;
-        }
-
-        .token-status p {
-            font-size: 14px;
-            color: #bbf7d0;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #334155;
-            border-radius: 6px;
-            font-size: 14px;
-            background-color: #1e293b;
-            color: #e2e8f0;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: #94a3b8;
-        }
-
-        small {
-            display: block;
-            margin-top: 5px;
-            color: #94a3b8;
-            font-size: 12px;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-
-        button:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button:disabled {
-            background: #1e40af;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .message {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 6px;
-            display: none;
-        }
-
-        .message.success {
-            background: rgba(21, 128, 61, 0.2);
-            color: #86efac;
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .message.error {
-            background: rgba(185, 28, 28, 0.2);
-            color: #fca5a5;
-            border: 1px solid rgba(248, 113, 113, 0.3);
-        }
+        /* (Your full CSS is included here for completeness) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #e2e8f0; background-color: #0f172a; padding: 20px; position: relative; min-height: 100vh; }
+        #video-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.4; }
+        .logo-container { text-align: center; margin-bottom: 30px; padding: 20px; }
+        .logo { max-width: 700px; width: 100%; height: auto; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1)); }
+        .container { max-width: 600px; margin: 0 auto; background: rgba(15, 23, 42, 0.85); padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); position: relative; z-index: 1; }
+        .token-status { background: rgba(185, 28, 28, 0.2); padding: 15px; border-radius: 8px; margin-bottom: 25px; border: 1px solid rgba(248, 113, 113, 0.3); text-align: center; }
+        .token-status h3 { margin-bottom: 5px; color: #fca5a5; }
+        .token-status p { font-size: 14px; color: #fecaca; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #cbd5e1; }
+        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #334155; border-radius: 6px; font-size: 14px; background-color: #1e293b; color: #e2e8f0; transition: border-color 0.2s, box-shadow 0.2s; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
+        input::placeholder, textarea::placeholder { color: #94a3b8; }
+        small { display: block; margin-top: 5px; color: #94a3b8; font-size: 12px; }
+        button { width: 100%; padding: 14px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background-color 0.2s, transform 0.1s; }
+        button:hover { background: #2563eb; transform: translateY(-1px); }
+        button:active { transform: translateY(0); }
+        button:disabled { background: #1e40af; cursor: not-allowed; transform: none; }
+        .message { margin-top: 20px; padding: 12px; border-radius: 6px; display: none; }
+        .message.success { background: rgba(21, 128, 61, 0.2); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .message.error { background: rgba(185, 28, 28, 0.2); color: #fca5a5; border: 1px solid rgba(248, 113, 113, 0.3); }
     </style>
 </head>
 <body>
@@ -176,8 +42,8 @@
 
     <div class="container">
         <div class="token-status">
-            <h3>Secure Submission Ready</h3>
-            <p>Project data will be securely handled by the Cloudflare Worker.</p>
+            <h3>WARNING: Secret Token Exposed at Build Time!</h3>
+            <p>Your token is visible in the deployed code's source. This is not secure.</p>
         </div>
 
         <form id="projectForm">
@@ -235,37 +101,33 @@
             this.messageEl = document.getElementById('message');
             this.submitBtn = document.getElementById('submitBtn');
             
-            // NOTE: Token is correctly removed for security.
+            // 🚨 CRITICAL STEP: This placeholder string will be replaced by the build command.
+            this.githubToken = '__PAGES_GITHUB_TOKEN__'; 
             
             this.form.addEventListener('submit', (e) => this.handleSubmit(e));
         }
 
-        // The secure handleSubmit method sends FormData to the worker
         async handleSubmit(e) {
             e.preventDefault();
             this.setMessage('', '');
             this.setLoading(true);
 
+            // Fail fast if the token was not injected (i.e., you are running locally)
+            if (this.githubToken === 'GITHUB_TOKEN') {
+                 this.setMessage('Error: GitHub Token not injected by Cloudflare build.', 'error');
+                 this.setLoading(false);
+                 return;
+            }
+
             try {
                 const formData = new FormData(this.form);
-
-                // Endpoint for your Cloudflare Worker
-                const resp = await fetch('https://goonium.ralph-smits.workers.dev/', {
-                    method: 'POST',
-                    body: formData // Sends multipart/form-data
-                });
-
-                const json = await resp.json();
+                const projectData = this.processFormData(formData);
                 
-                if (!resp.ok) {
-                    // Handle errors returned by the Worker
-                    throw new Error(json.error || json.message || `Worker responded with status ${resp.status}`);
-                }
+                await this.createProjectOnGitHub(projectData, this.githubToken);
 
                 this.setMessage('Project created successfully!', 'success');
                 this.form.reset();
             } catch (error) {
-                // This catches connection errors (like the previous SSL error) and Worker errors
                 this.setMessage(`Error: ${error.message}`, 'error');
                 console.error('Submission error:', error);
             } finally {
@@ -273,31 +135,98 @@
             }
         }
         
-        // UI methods
-        setMessage(text, type) {
-            if (!text) {
-                this.messageEl.style.display = 'none';
-                return;
-            }
+        processFormData(formData) {
+            const creators = formData.get('creators').split(',').map(name => name.trim());
+            const tags = formData.get('tags').split(',').map(tag => tag.trim());
             
-            this.messageEl.textContent = text;
-            this.messageEl.className = `message ${type}`;
-            this.messageEl.style.display = 'block';
+            return {
+                projectName: formData.get('projectName'),
+                creators: creators,
+                description: formData.get('description'),
+                tags: tags,
+                category: formData.get('category'),
+                year: formData.get('year'),
+                imageFile: formData.get('imageFile')
+            };
         }
 
-        setLoading(loading) {
-            this.submitBtn.disabled = loading;
-            this.submitBtn.textContent = loading ? 'Creating Project...' : 'Create Project';
-        }
-        
-        // Helper functions from the previous version are removed as the Worker now handles them:
-        // processFormData, sanitizeFolderName, fileToBase64
-    }
+        async createProjectOnGitHub(projectData, token) {
+            const { imageFile, ...metadata } = projectData;
+            const repoOwner = 'ralphsmits'; // Set your repo owner
+            const repoName = 'goonium';    // Set your repo name
 
-    // Initialize when page loads
-    document.addEventListener('DOMContentLoaded', () => {
-        new ProjectSubmitter();
-    });
-    </script>
-</body>
-</html>
+            const imageBase64 = await this.fileToBase64(imageFile);
+                
+            const metadataContent = {
+                projectName: metadata.projectName,
+                creators: metadata.creators,
+                description: metadata.description,
+                tags: metadata.tags,
+                category: metadata.category,
+                year: metadata.year,
+                imageFile: "thumbnail.png"
+            };
+
+            const folderName = this.sanitizeFolderName(metadata.projectName);
+                
+            // Create metadata.json
+            await this.createGitHubFile(
+                token, 
+                repoOwner,
+                repoName,
+                `${folderName}/metadata.json`,
+                JSON.stringify(metadataContent, null, 2),
+                false // not an image
+            );
+
+            // Create thumbnail.png
+            await this.createGitHubFile(
+                token,
+                repoOwner,
+                repoName,
+                `${folderName}/thumbnail.png`,
+                imageBase64,
+                true // is an image
+            );
+        }
+
+        async createGitHubFile(token, owner, repo, path, content, isImage = false) {
+            let base64Content;
+                
+            if (isImage) {
+                // Remove the data URL prefix for images
+                base64Content = content.split(',')[1];
+            } else {
+                // For text files, use proper base64 encoding
+                base64Content = btoa(unescape(encodeURIComponent(content)));
+            }
+
+            const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+            const response = await fetch(apiUrl, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `token ${token}`,
+                    "Content-Type": "application/json",
+                    'Accept': 'application/vnd.github.v3+json'
+                },
+                body: JSON.stringify({
+                    message: `Add ${path}`,
+                    content: base64Content,
+                    branch: "main"
+                })
+            });
+
+            if (!response.ok) {
+                const responseData = await response.json().catch(() => ({ message: 'Unknown error' }));
+                throw new Error(`GitHub API error: ${response.status} - ${responseData.message}`);
+            }
+        }
+
+        fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });

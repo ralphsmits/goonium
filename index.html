@@ -232,221 +232,117 @@
         <div id="message" class="message"></div>
     </div>
     <script>
-        class ProjectSubmitter {
-            constructor() {
-                this.form = document.getElementById('projectForm');
-                this.messageEl = document.getElementById('message');
-                this.submitBtn = document.getElementById('submitBtn');
-                
-                // Hardcoded fine-grained personal access token for testing
-                this.githubToken = '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';
-                
-                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-            }
+    class ProjectSubmitter {
+        constructor() {
+            this.form = document.getElementById('projectForm');
+            this.messageEl = document.getElementById('message');
+            this.submitBtn = document.getElementById('submitBtn');
+            
+            // Hardcoded fine-grained personal access token for testing
+            // this.githubToken = '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'; // <-- REMOVED
+            
+            this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        }
 
-// Remove the hardcoded token completely
-// this.githubToken = '...';  <-- DELETE
+        // The updated handleSubmit method that sends FormData to the worker
+        async handleSubmit(e) {
+            e.preventDefault();
+            this.setMessage('', '');
+            this.setLoading(true);
 
-// In handleSubmit(), instead of testGitHubToken + createProjectOnGitHub,
-// send the FormData to the worker:
+            try {
+                const formData = new FormData(this.form);
 
-async handleSubmit(e) {
-  e.preventDefault();
-  this.setMessage('', '');
-  this.setLoading(true);
-
-  try {
-    const formData = new FormData(this.form);
-
-    // send to your worker endpoint
-    const resp = await fetch('https://goonium.ralph-smits.workers.dev/', {
-      method: 'POST',
-      body: formData
-      // no Authorization header here
-    });
-
-    const json = await resp.json();
-    if (!resp.ok) {
-      throw new Error(json.error || json.message || 'Worker error');
-    }
-
-    this.setMessage('Project created successfully!', 'success');
-    this.form.reset();
-  } catch (error) {
-    this.setMessage(`Error: ${error.message}`, 'error');
-    console.error('Submission error:', error);
-  } finally {
-    this.setLoading(false);
-  }
-}
-
-            processFormData(formData) {
-                const creators = formData.get('creators').split(',').map(name => name.trim());
-                const tags = formData.get('tags').split(',').map(tag => tag.trim());
-                
-                return {
-                    projectName: formData.get('projectName'),
-                    creators: creators,
-                    description: formData.get('description'),
-                    tags: tags,
-                    category: formData.get('category'),
-                    year: formData.get('year'),
-                    imageFile: formData.get('imageFile')
-                };
-            }
-
-            async testGitHubToken(token) {
-                try {
-                    const response = await fetch('https://api.github.com/user', {
-                        headers: {
-                            'Authorization': `token ${token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    
-                    if (!response.ok) {
-                        if (response.status === 401) {
-                            throw new Error('Token is invalid or expired');
-                        } else if (response.status === 403) {
-                            throw new Error('Token missing required permissions');
-                        } else {
-                            throw new Error(`GitHub API error: ${response.status}`);
-                        }
-                    }
-                    
-                    const userData = await response.json();
-                    console.log('Token works for user:', userData.login);
-                    return true;
-                } catch (error) {
-                    throw new Error(`Token test failed: ${error.message}`);
-                }
-            }
-
-            async createProjectOnGitHub(projectData) {
-                const { githubToken, imageFile, ...metadata } = projectData;
-                
-                // Process image file
-                const imageBase64 = await this.fileToBase64(imageFile);
-                
-                // Create metadata with proper structure
-                const metadataContent = {
-                    projectName: metadata.projectName,
-                    creators: metadata.creators,
-                    description: metadata.description,
-                    tags: metadata.tags,
-                    category: metadata.category,
-                    year: metadata.year,
-                    imageFile: "thumbnail.png"
-                };
-
-                // Sanitize project name for folder
-                const folderName = this.sanitizeFolderName(metadata.projectName);
-                
-                // Create folder and files on GitHub
-                await this.createGitHubFile(
-                    githubToken, 
-                    `${folderName}/metadata.json`,
-                    JSON.stringify(metadataContent, null, 2),
-                    false // not an image
-                );
-
-                await this.createGitHubFile(
-                    githubToken,
-                    `${folderName}/thumbnail.png`,
-                    imageBase64,
-                    true // is an image
-                );
-            }
-
-            async createGitHubFile(token, path, content, isImage = false) {
-                try {
-                    let base64Content;
-                    
-                    if (isImage) {
-                        // Remove the data URL prefix for images
-                        base64Content = content.split(',')[1];
-                    } else {
-                        // For text files, use proper base64 encoding
-                        base64Content = btoa(unescape(encodeURIComponent(content)));
-                    }
-
-async function uploadToRepo(path, base64Content) {
-  const response = await fetch("https://goonium.ralph-smits.workers.dev", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      path, // e.g. "hold/project123/data.json"
-      content: base64Content, // must already be base64 encoded
-      message: `Add ${path}`
-    })
-  });
-
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`Worker error: ${text}`);
-  }
-}
-
-                    const responseData = await response.json();
-                    
-                    if (!response.ok) {
-                        if (response.status === 401) {
-                            throw new Error('Invalid token - check token permissions');
-                        } else if (response.status === 403) {
-                            throw new Error('Token missing required scopes (need repository access)');
-                        } else if (response.status === 404) {
-                            throw new Error('Repository not found - check repository name');
-                        } else {
-                            throw new Error(`GitHub API error: ${response.status} - ${responseData.message}`);
-                        }
-                    }
-
-                    return responseData;
-                } catch (error) {
-                    throw new Error(`Network error: ${error.message}`);
-                }
-            }
-
-            fileToBase64(file) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = error => reject(error);
+                // Send to your worker endpoint. The worker is responsible for using
+                // the GitHub token securely on the server-side.
+                const resp = await fetch('https://goonium.ralph-smits.workers.dev/', {
+                    method: 'POST',
+                    body: formData // Sending the raw FormData
+                    // No Authorization header here, as the token is now worker-side
                 });
-            }
 
-            sanitizeFolderName(name) {
-                return name
-                    .toLowerCase()
-                    .replace(/[^a-z0-9]/g, '-')
-                    .replace(/-+/g, '-')
-                    .replace(/^-|-$/g, '');
-            }
-
-            setMessage(text, type) {
-                if (!text) {
-                    this.messageEl.style.display = 'none';
-                    return;
+                const json = await resp.json();
+                if (!resp.ok) {
+                    throw new Error(json.error || json.message || 'Worker error');
                 }
-                
-                this.messageEl.textContent = text;
-                this.messageEl.className = `message ${type}`;
-                this.messageEl.style.display = 'block';
-            }
 
-            setLoading(loading) {
-                this.submitBtn.disabled = loading;
-                this.submitBtn.textContent = loading ? 'Creating Project...' : 'Create Project';
+                this.setMessage('Project created successfully!', 'success');
+                this.form.reset();
+            } catch (error) {
+                this.setMessage(`Error: ${error.message}`, 'error');
+                console.error('Submission error:', error);
+            } finally {
+                this.setLoading(false);
             }
         }
 
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            new ProjectSubmitter();
-        });
-    </script>
+        // This method is now likely obsolete as the worker will process the form data,
+        // but it is kept for completeness if other client-side logic still uses it.
+        processFormData(formData) {
+            const creators = formData.get('creators').split(',').map(name => name.trim());
+            const tags = formData.get('tags').split(',').map(tag => tag.trim());
+            
+            return {
+                projectName: formData.get('projectName'),
+                creators: creators,
+                description: formData.get('description'),
+                tags: tags,
+                category: formData.get('category'),
+                year: formData.get('year'),
+                imageFile: formData.get('imageFile')
+            };
+        }
+
+        // --- GitHub API interaction methods REMOVED/OBSOLETE ---
+        // testGitHubToken(token) {} 
+        // createProjectOnGitHub(projectData) {}
+        // createGitHubFile(token, path, content, isImage = false) {}
+        // fileToBase64(file) {} // Not needed on client-side anymore
+        // sanitizeFolderName(name) {} // Should be moved to the worker
+
+        // Keeping these two utility functions as they might still be used elsewhere, 
+        // but they are technically no longer involved in the submission flow.
+        // If the worker handles ALL file processing, these should also be removed.
+
+        sanitizeFolderName(name) {
+            return name
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+
+        fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+        // --- END REMOVAL/OBSOLETION ---
+
+        setMessage(text, type) {
+            if (!text) {
+                this.messageEl.style.display = 'none';
+                return;
+            }
+            
+            this.messageEl.textContent = text;
+            this.messageEl.className = `message ${type}`;
+            this.messageEl.style.display = 'block';
+        }
+
+        setLoading(loading) {
+            this.submitBtn.disabled = loading;
+            this.submitBtn.textContent = loading ? 'Creating Project...' : 'Create Project';
+        }
+    }
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        new ProjectSubmitter();
+    });
+</script>
 </body>
 </html>

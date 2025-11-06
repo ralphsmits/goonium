@@ -239,7 +239,7 @@
                 this.submitBtn = document.getElementById('submitBtn');
                 
                 // Hardcoded fine-grained personal access token for testing
-                this.githubToken = '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';
+                this.githubToken = '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';
                 
                 this.form.addEventListener('submit', (e) => this.handleSubmit(e));
             }
@@ -362,7 +362,7 @@
                     }
 
                     const response = await fetch(
-                        `https://api.github.com/repos/cmdverse/cmdverse/contents/hold/${path}`, 
+                        `https://api.github.com/repos/ralphsmits/goonium/contents/hold/${path}`, 
                         {
                             method: 'PUT',
                             headers: {

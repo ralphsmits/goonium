@@ -7,7 +7,10 @@
   "tags": [
     "2d Design"
   ],
-  "category": "Social",
+    "category": [
+    "Discursive",
+    "Social"
+  ],
   "year": "2023",
   "imageFile": "thumbnail.png"
 }

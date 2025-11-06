@@ -9,7 +9,10 @@
     "Film",
     "Editing"
   ],
-  "category": "Media",
+    "category": [
+    "Discursive",
+    "Media"
+  ],
   "year": "2024-01-14",
   "imageFile": "thumbnail.png"
 }

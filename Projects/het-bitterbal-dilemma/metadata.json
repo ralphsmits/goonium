@@ -10,7 +10,10 @@
   "tags": [
     "Design for Transition"
   ],
-  "category": "Social",
+    "category": [
+    "Discursive",
+    "Social"
+  ],
   "year": "2025",
   "imageFile": "thumbnail.png"
 }

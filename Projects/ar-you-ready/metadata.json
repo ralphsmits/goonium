@@ -12,7 +12,10 @@
     "Immersive Storytelling",
     "Game"
   ],
-  "category": "Createch",
+    "category": [
+    "Discursive",
+    "Media"
+  ],
   "year": "2024",
   "imageFile": "thumbnail.png"
 }

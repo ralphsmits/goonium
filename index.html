@@ -59,6 +59,7 @@
         }
 
         .token-status {
+            /* NOTE: Keeping this visual indicator even though the token is gone from the client */
             background: rgba(21, 128, 61, 0.2);
             padding: 15px;
             border-radius: 8px;
@@ -165,22 +166,19 @@
     </style>
 </head>
 <body>
-    <!-- Video Background -->
     <video id="video-background" autoplay muted loop>
         <source src="https://raw.githubusercontent.com/ralphsmits/testing3oct/refs/heads/main/backdrop.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
-    <!-- Logo outside the form container -->
     <div class="logo-container">
         <img src="https://raw.githubusercontent.com/ralphsmits/testing3oct/refs/heads/main/cmdverselogo2.png" alt="CMDverse Logo" class="logo">
     </div>
 
     <div class="container">
-        <!-- Token Status Section -->
         <div class="token-status">
-            <h3>GitHub Token Ready</h3>
-            <p>Fine-grained personal access token is configured for testing</p>
+            <h3>Secure Submission Ready</h3>
+            <p>Project data will be securely handled by the Cloudflare Worker.</p>
         </div>
 
         <form id="projectForm">
@@ -238,8 +236,7 @@
             this.messageEl = document.getElementById('message');
             this.submitBtn = document.getElementById('submitBtn');
             
-            // Hardcoded fine-grained personal access token for testing
-            // this.githubToken = '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'; // <-- REMOVED
+            // Token removal confirmed
             
             this.form.addEventListener('submit', (e) => this.handleSubmit(e));
         }
@@ -253,17 +250,18 @@
             try {
                 const formData = new FormData(this.form);
 
-                // Send to your worker endpoint. The worker is responsible for using
-                // the GitHub token securely on the server-side.
+                // Send the raw FormData to the worker endpoint
                 const resp = await fetch('https://goonium.ralph-smits.workers.dev/', {
                     method: 'POST',
                     body: formData // Sending the raw FormData
-                    // No Authorization header here, as the token is now worker-side
                 });
 
+                // The worker should return a JSON response
                 const json = await resp.json();
+                
                 if (!resp.ok) {
-                    throw new Error(json.error || json.message || 'Worker error');
+                    // Check for error properties returned by the Worker
+                    throw new Error(json.error || json.message || `Worker responded with status ${resp.status}`);
                 }
 
                 this.setMessage('Project created successfully!', 'success');
@@ -276,8 +274,8 @@
             }
         }
 
-        // This method is now likely obsolete as the worker will process the form data,
-        // but it is kept for completeness if other client-side logic still uses it.
+        // These helper methods are no longer used in the submission flow 
+        // but are retained in case they were used for client-side validation/processing.
         processFormData(formData) {
             const creators = formData.get('creators').split(',').map(name => name.trim());
             const tags = formData.get('tags').split(',').map(tag => tag.trim());
@@ -292,17 +290,6 @@
                 imageFile: formData.get('imageFile')
             };
         }
-
-        // --- GitHub API interaction methods REMOVED/OBSOLETE ---
-        // testGitHubToken(token) {} 
-        // createProjectOnGitHub(projectData) {}
-        // createGitHubFile(token, path, content, isImage = false) {}
-        // fileToBase64(file) {} // Not needed on client-side anymore
-        // sanitizeFolderName(name) {} // Should be moved to the worker
-
-        // Keeping these two utility functions as they might still be used elsewhere, 
-        // but they are technically no longer involved in the submission flow.
-        // If the worker handles ALL file processing, these should also be removed.
 
         sanitizeFolderName(name) {
             return name
@@ -320,8 +307,8 @@
                 reader.onerror = error => reject(error);
             });
         }
-        // --- END REMOVAL/OBSOLETION ---
-
+        
+        // UI methods
         setMessage(text, type) {
             if (!text) {
                 this.messageEl.style.display = 'none';
@@ -343,6 +330,6 @@
     document.addEventListener('DOMContentLoaded', () => {
         new ProjectSubmitter();
     });
-</script>
+    </script>
 </body>
 </html>

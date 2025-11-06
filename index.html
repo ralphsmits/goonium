@@ -113,7 +113,7 @@
             this.setLoading(true);
 
             // Fail fast if the token was not injected (i.e., you are running locally)
-            if (this.githubToken === 'GITHUB_TOKEN') {
+            if (this.githubToken === '__PAGES_GITHUB_TOKEN__') {
                  this.setMessage('Error: GitHub Token not injected by Cloudflare build.', 'error');
                  this.setLoading(false);
                  return;
@@ -230,3 +230,37 @@
                 reader.onload = () => resolve(reader.result);
                 reader.onerror = error => reject(error);
             });
+        }
+
+        sanitizeFolderName(name) {
+            return name
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+
+        setMessage(text, type) {
+            if (!text) {
+                this.messageEl.style.display = 'none';
+                return;
+            }
+            
+            this.messageEl.textContent = text;
+            this.messageEl.className = `message ${type}`;
+            this.messageEl.style.display = 'block';
+        }
+
+        setLoading(loading) {
+            this.submitBtn.disabled = loading;
+            this.submitBtn.textContent = loading ? 'Creating Project...' : 'Create Project';
+        }
+    }
+
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        new ProjectSubmitter();
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "projectName": "Slimme Kast",
+  "creators": [
+    "Luuk de Graaf"
+  ],
+  "description": "De Slimme Kast van Luuk de Graaf richt zich op het stimuleren van verantwoord kledinggebruik bij consumenten in de thuissituatie. Het project reageert op de groeiende problematiek van overproductie en overconsumptie binnen de textielsector. De kast, gekoppeld aan de app IKEA Rewear, gebruikt RFID-technologie om kledingstukken te registreren en bij te houden welke items wel of niet worden gedragen. Op basis van deze data doet het systeem ruil- en verkoopsuggesties via een digitaal platform, ontwikkeld in samenwerking met IKEA. Hierdoor ontstaat een laagdrempelige, circulaire ruilmarkt binnen de eigen kledingkast. De doelgroep — jongvolwassenen met aandacht voor duurzaamheid — wordt via speelse interactie en gepersonaliseerde aanbevelingen gestimuleerd om bewuster met hun kleding om te gaan. De slimme kast combineert technologische innovatie met gedragsverandering, en bevordert zowel ecologische als economische duurzaamheid.",
+  "tags": [
+    "Tech",
+    "Duurzaamheid",
+    "Transitie"
+  ],
+  "category": [
+    "Social",
+    "Createch"
+  ],
+  "year": "2025",
+  "imageFile": "thumbnail.png"
+}
